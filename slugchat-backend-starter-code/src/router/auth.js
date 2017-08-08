@@ -24,11 +24,12 @@ export default new Router()
   })
   .catch(next)
 })
-.get('/login', basicAuth, (req, res, next) => {
-  req.user.tokenCreate()
-  .then((token) => {
-    res.cookie('X-Slugchat-Token', token)
-    res.send(token)
+.get('/usernames/:username', (req, res, next) => {
+  User.findOne({username: req.params.username})
+  .then(user => {
+    if(!user)
+      return res.sendStatus(200)
+    return res.sendStatus(409)
   })
   .catch(next)
 })
